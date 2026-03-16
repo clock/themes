@@ -1,0 +1,360 @@
+:root {
+  --bg-color: #111111;
+  --sub-alt-color: #191919;
+  --sub-color: #7a7a7a;
+  --main-color: #f5f5f5;
+  --text-color: #f5f5f5;
+  --caret-color: #f5f5f5;
+  --error-color: #ff6b6b;
+  --error-extra-color: #ffdede;
+  --colorful-error-color: #ff6b6b;
+  --colorful-error-extra-color: #ffdede;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ── Layout ─────────────────────────────────────────── */
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Sidebar ─────────────────────────────────────────── */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  border-right: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+  background: var(--sub-alt-color);
+  transition: background-color 180ms ease;
+}
+
+.sidebar-top {
+  flex-shrink: 0;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+}
+
+.sidebar-count {
+  font-size: 11px;
+  color: var(--sub-color);
+}
+
+.sidebar-search {
+  flex-shrink: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+  padding: 0 14px;
+}
+
+.sidebar-search input {
+  display: block;
+  width: 100%;
+  padding: 9px 0;
+  background: transparent;
+  font-size: 12px;
+}
+
+.sidebar-search input::placeholder {
+  color: var(--sub-color);
+}
+
+.theme-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.theme-list::-webkit-scrollbar {
+  width: 3px;
+}
+.theme-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.theme-list::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--text-color) 18%, transparent);
+}
+
+.theme-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid transparent;
+  transition: background 60ms;
+}
+
+.theme-item:hover,
+.theme-item.is-active {
+  background: color-mix(in srgb, var(--main-color) 8%, transparent);
+}
+
+.theme-swatches {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.swatch {
+  display: block;
+  width: 10px;
+  height: 10px;
+  transition: background-color 180ms ease;
+}
+
+.theme-item-name {
+  font-size: 12px;
+  color: var(--sub-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  transition: color 60ms;
+}
+
+.theme-item:hover .theme-item-name,
+.theme-item.is-active .theme-item-name {
+  color: var(--text-color);
+}
+
+.theme-item.is-selected .theme-item-name {
+  color: var(--main-color);
+}
+
+/* ── Content ─────────────────────────────────────────── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.content-header {
+  flex-shrink: 0;
+  padding: 11px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.content-name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--main-color);
+  transition: color 180ms ease;
+}
+
+.content-meta-item {
+  font-size: 11px;
+  color: var(--sub-color);
+}
+
+.content-meta-item span {
+  color: var(--text-color);
+}
+
+.content-panels {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+
+/* ── Palette panel ─────────────────────────────────────── */
+
+.palette-panel {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+  overflow: hidden;
+}
+
+.panel-header {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sub-color);
+}
+
+.palette-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.palette-body::-webkit-scrollbar {
+  width: 3px;
+}
+.palette-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.palette-body::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--text-color) 18%, transparent);
+}
+
+.palette-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 6%, transparent);
+}
+
+.palette-block {
+  width: 36px;
+  height: 18px;
+  flex-shrink: 0;
+  border: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+  transition: background-color 180ms ease;
+}
+
+.palette-var {
+  font-size: 11px;
+  color: var(--sub-color);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.palette-hex {
+  font-size: 11px;
+  color: var(--text-color);
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ── Export panel ─────────────────────────────────────── */
+
+.export-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.export-panel-header {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.export-panel-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sub-color);
+}
+
+.copy-btn {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sub-color);
+  padding: 3px 8px;
+  border: 1px solid color-mix(in srgb, var(--text-color) 20%, transparent);
+  transition: color 60ms, border-color 60ms;
+}
+
+.copy-btn:hover,
+.copy-btn.is-copied {
+  color: var(--main-color);
+  border-color: var(--main-color);
+}
+
+.export-tabs {
+  flex-shrink: 0;
+  display: flex;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+}
+
+.tab-btn {
+  padding: 7px 12px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sub-color);
+  border-right: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+  transition: color 60ms, background 60ms;
+}
+
+.tab-btn:hover {
+  color: var(--text-color);
+}
+
+.tab-btn.is-selected {
+  color: var(--main-color);
+  background: color-mix(in srgb, var(--main-color) 6%, transparent);
+}
+
+.export-code {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+  font-size: 11px;
+  line-height: 1.65;
+  color: var(--text-color);
+  background: color-mix(in srgb, var(--sub-alt-color) 60%, var(--bg-color) 40%);
+  white-space: pre-wrap;
+  word-break: break-all;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.export-code::-webkit-scrollbar {
+  width: 3px;
+}
+.export-code::-webkit-scrollbar-track {
+  background: transparent;
+}
+.export-code::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--text-color) 18%, transparent);
+}
