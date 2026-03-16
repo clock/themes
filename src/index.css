@@ -391,3 +391,62 @@ button {
 .export-code::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--text-color) 18%, transparent);
 }
+
+/* ── Mobile ──────────────────────────────────────────── */
+
+@media (max-width: 700px) {
+  html,
+  body,
+  #root {
+    height: auto;
+  }
+
+  .app-shell {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+  }
+
+  .sidebar {
+    height: auto;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+  }
+
+  .theme-list {
+    max-height: 38vh;
+  }
+
+  .content {
+    height: auto;
+    overflow: visible;
+  }
+
+  .content-header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .content-panels {
+    grid-template-columns: 1fr;
+    overflow: visible;
+    height: auto;
+  }
+
+  .palette-panel {
+    border-right: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+    overflow: visible;
+    height: auto;
+  }
+
+  .palette-body {
+    overflow: visible;
+    height: auto;
+  }
+
+  .export-panel {
+    height: 420px;
+  }
+}
