@@ -74,9 +74,42 @@ button {
   border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
 }
 
+.sidebar-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .sidebar-count {
   font-size: 11px;
   color: var(--sub-color);
+}
+
+.sort-toggle {
+  display: flex;
+}
+
+.sort-btn {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sub-color);
+  padding: 2px 7px;
+  border: 1px solid color-mix(in srgb, var(--text-color) 16%, transparent);
+  transition: color 60ms, border-color 60ms;
+}
+
+.sort-btn + .sort-btn {
+  border-left: none;
+}
+
+.sort-btn:hover {
+  color: var(--text-color);
+}
+
+.sort-btn.is-selected {
+  color: var(--main-color);
+  border-color: var(--main-color);
 }
 
 .sidebar-search {

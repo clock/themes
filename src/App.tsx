@@ -9,6 +9,22 @@ const rootKeys = Array.from(
   new Set(themes.flatMap((theme) => Object.keys(theme.colors)))
 ).sort((a, b) => a.localeCompare(b));
 
+function hexLuminance(hex: string): number {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16) / 255;
+  const g = parseInt(h.slice(2, 4), 16) / 255;
+  const b = parseInt(h.slice(4, 6), 16) / 255;
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+const themeLuminance = new Map<string, number>(
+  themes.map((t) => [t.id, hexLuminance(t.colors["--bg-color"] ?? "#000000")])
+);
+
+const themesByLuminance = [...themes].sort(
+  (a, b) => (themeLuminance.get(a.id) ?? 0) - (themeLuminance.get(b.id) ?? 0)
+);
+
 const SWATCH_KEYS = [
   "--bg-color",
   "--sub-alt-color",
@@ -39,15 +55,17 @@ export default function App() {
   const [hoveredThemeId, setHoveredThemeId] = useState<string | null>(null);
   const [activeFormat, setActiveFormat] = useState<ExportFormat>("css");
   const [copiedFormat, setCopiedFormat] = useState<ExportFormat | null>(null);
+  const [sortMode, setSortMode] = useState<"alpha" | "luminance">("alpha");
 
+  const baseList = sortMode === "luminance" ? themesByLuminance : themes;
   const normalized = query.trim().toLowerCase();
   const filteredThemes = normalized
-    ? themes.filter(
+    ? baseList.filter(
         (t) =>
           t.name.toLowerCase().includes(normalized) ||
           t.id.toLowerCase().includes(normalized)
       )
-    : themes;
+    : baseList;
 
   const activeTheme =
     themes.find((t) => t.id === hoveredThemeId) ??
@@ -85,7 +103,25 @@ export default function App() {
       {/* ── Sidebar ── */}
       <aside className="sidebar">
         <div className="sidebar-top">
-          <div className="sidebar-count">{themes.length} themes</div>
+          <div className="sidebar-top-row">
+            <div className="sidebar-count">{themes.length} themes</div>
+            <div className="sort-toggle">
+              <button
+                className={`sort-btn${sortMode === "alpha" ? " is-selected" : ""}`}
+                type="button"
+                onClick={() => setSortMode("alpha")}
+              >
+                A–Z
+              </button>
+              <button
+                className={`sort-btn${sortMode === "luminance" ? " is-selected" : ""}`}
+                type="button"
+                onClick={() => setSortMode("luminance")}
+              >
+                ◐
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="sidebar-search">
